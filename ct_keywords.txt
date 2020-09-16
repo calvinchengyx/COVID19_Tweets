@@ -1,5 +1,5 @@
 ct_1_5g = "(?=.*\\b5g\\b)(?=.*(\\bpandemic|\\bepidemic|\\bcorona|\\bvirus\\b|\\bcovd|\\bcovid|\\bsars\\b|\\bflu\\b|\\bncov|\\bkorona|\\btower\\b|\\btelecom|\\bspread|\\bimmun))"
-ct_2_billgates = "(?=.*\\bvaccin)(?=.*(\\bmicrochip)(?=.*\\bdeath|\\bdead.?\\b))(?=.*\\bbates\\b)|(?=.*\\bevent\\b)(?=.*\\b201\\b)(?=.*\\bbates\\b)|(?=.*\\bpopulat)(?=.*\\bcontrol)(?=.*\\bbates\\b)"
+ct_2_billgates = "(?=.*\\bvaccin)(?=.*(\\bmicrochip)(?=.*\\bdeath|\\bdead.?\\b))(?=.*\\bgates\\b)|(?=.*\\bevent\\b)(?=.*\\b201\\b)(?=.*\\bgates\\b)|(?=.*\\bpopulat)(?=.*\\bcontrol)(?=.*\\bgates\\b)"
 ct_3_bioweapon = "(?=.*\\bcanad)(?=.*(\\bspy|\\bspie.?\\b))(?=.*(\\bsteal|\\bstole))|
 (?=.*(\\bamerica|\\bus\\b|united states|\\busa\\b))(?=.*\\bpatent)|
 (?=.*(\\bchina|\\bchinese|\\bprc\\b))(?=.*(\\bbio))(?=.*\\bweapon)|
