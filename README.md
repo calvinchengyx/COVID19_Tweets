@@ -113,10 +113,10 @@ With provided human coding samples, we are already capable of answering some RQs
 
 ##### RQ 1: Is there an ideological asymeetry in the sharing and beliefs of CTs?
 Generally, there are more conservatives express and share CT related tweets than liberals. In addition, conservatives are more likely to express and share beliefs in CT related tweets as well. (A = affirmative, D = denied, N/O = non-opinioned) 
-![p1_1](./p1_1.pdf)
-![p1_2](./p1_2.pdf)
-![p1_3](./p1_3.pdf)
-![p1_4](./p1_4.pdf)
+![p1_1](.pic/p1_1.pdf)
+![p1_2](.pic/p1_2.pdf)
+![p1_3](.pic/p1_3.pdf)
+![p1_4](.pic/p1_4.pdf)
 
 ##### RQ 2: How do conservatives and liberals differ in ways they talk about COVID-19 CTs?
 To be brief, conservatives would produce more CT tweets than liberals, except for __sarcastic__ ones. As for __disbelief__ and __refutation__ types of content, conservatives and liberals' tweet counts are close. 
@@ -136,18 +136,18 @@ To be brief, conservatives would produce more CT tweets than liberals, except fo
 | S | Sarcastic | 20 | 47 | 0.43 |
 | SM | sense making | 39 | 13 | 3 |
 
-![p2](./p2.pdf)
+![p2](.pic/p2.pdf)
 
 ##### RQ 3: How do emotions, moral sentiments shape diffusion of COVID-19 CTs within and between political clusters?
 First of all, there is no significant correlation between the number of moral-emotional words (_mix_ as the x axle) and retweet counts (_retweet count_ as the y axle). It should be noted that the distribution of retweet count is much sparser than the number of moral-emotional words, where data could be further manipulated.
-![p3](./p3_1.pdf)
+![p3](.pic/p3_1.pdf)
 
 Similar result when taking __Stance__ and __Type__ variable into consideration.
-![p3](./p3_2.pdf)
-![p3](./p3_2_2.pdf)
+![p3](.pic/p3_2.pdf)
+![p3](.pic/p3_2_2.pdf)
 
 Among all levels of moral-emotional words, sharing behaviors of CT tweets are more likely to happen within the same political clusters. The below graphs represents the number of shares of CT tweets with different moral emotional words. For example, the sixth one with lable __5__ means that among CT tweets containing 5 moral emotional words, in-group users (same ideology)(N=112) retweet 10.67 times more than out-group users (N=10.5) on average. 
-![p3](./p3_3.pdf)
+![p3](.pic/p3_3.pdf)
 
 | Num of moral-emo words | in-group | out-group | Ratio I/O | 
 | :---------: |:-------------:|:-----:|:----:|
