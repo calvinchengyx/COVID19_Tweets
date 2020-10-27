@@ -8,6 +8,7 @@
 	- [Virality Score](#cascade)
 	- [Moral-Emotional Words](#moral)
 	- [Beliefs & RIAS](#ml)
+- [Result 1016](#result1016)
 - [Result based on human-coded Data 1016](#report)
 
 ## Data Collection <a name="introduction"></a>
@@ -110,9 +111,12 @@ The model training information for each variable is listed as below.
 
 With these models, values for __stance__ and __type__ were saved in `ml_tweet_3.rds` file. It should be noted that for the __type__ variable, models performed very differently for binary elements because there are not enough training samples for model construction. 
 
-Given the limitation of machine learning, the classification results might not be as well as we expected. Therefore, I also reported the result of RQs with human-coded variables only in the next section, serving as a reference for evaluating the performance of machine generated variables. Ideally, results from the two datasets should be similar. But if the whole dataset performs worse than the human-coded only dataset, it is very likely that our machine learning algorithms are not good enough.
+## Result 1016 <a name="result1016"></a>
+After data wrangling, we finally constructed two dataframes for running regressions: `ct_original.rds` and `ct_retweet.rds`. 
 
-### Result based on human-coded Data 1016 <a name="report"></a>
+However, given the limitation of machine learning, the classification results might not be as well as we expected. Therefore, I also reported the result of RQs with human-coded variables only in the next section, serving as a reference for evaluating the performance of machine generated variables. Ideally, results from the two datasets should be similar. But if the whole dataset performs worse than the human-coded only dataset, it is very likely that our machine learning algorithms are not good enough.
+
+## Result based on human-coded Data 1016 <a name="report"></a>
 With provided human coding samples, we are already capable of answering some RQs in the proposal though with limited tweets. Following results are based on the human-coded variables and therefore it is more reliable on the current stage. 
 
 ##### RQ 1: Is there an ideological asymeetry in the sharing and beliefs of CTs?
