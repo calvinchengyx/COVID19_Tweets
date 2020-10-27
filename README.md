@@ -11,9 +11,9 @@
 - [Result based on human-coded Data 1016](#report)
 
 ## Data Collection <a name="introduction"></a>
-We extracted Twitter data from the public Coronavirus Twitter dataset created by [Chen, Lerman and Ferrara (2020)](https://github.com/echen102/COVID-19-TweetIDs). The dataset features tweets containing keywords related to the COVID-19 pandemics collected from the Twitter streaming API from 28th January 2020 and is continued to be updated every week. By the time we collected our data, it contained more than 232 million tweets and over 60% of tweets are in English. The present project seeks to analyse COVID-19 conspiracy theory (CT) related tweets made by Twitter users from Jan 21 to June 30, 2020.
+We extracted Twitter data from the public Coronavirus Twitter dataset created by [Chen, Lerman and Ferrara (2020)](https://github.com/echen102/COVID-19-TweetIDs). The dataset features tweets containing keywords related to the COVID-19 pandemics collected from the Twitter streaming API from 28th January 2020 and is continued to be updated every week. By the time we collected our data (July 2020), it contained more than 232 million tweets and over 60% of tweets are in English. The present project seeks to analyse COVID-19 conspiracy theory (CT) related tweets made by Twitter users from Jan 21 to June 30, 2020.
 
-According to a pre-identified keyword list, we firstly filtered CT related tweets by self-defined regular expressions (please refer to `ct_keywords.txt` file for more information). After some preliminary data wranglings (i.e., removing NAs, removing non-English tweets, etc.), we kept sample tweets with following information: tweet user id, tweet user screen name, tweet user name, tweet id, tweet created time stamp, retweeted tweet id, retweeted user id, retweet created time stamp, reply user id, reply tweet id, quoted status, mentioned user id, url, source, favourite count, retweet count, language code, contents, etc. As a result, 174,031 tweets (`ct_twitter_3.rds` file in this repo) were retrieved finally. Details are shown as below. 
+According to a pre-identified keyword list, we firstly filtered CT related tweets by self-defined regular expressions (please refer to `ct_keywords.txt` file for more information). After some preliminary data wranglings (i.e., removing NAs, removing non-English tweets, etc.), we kept sample tweets with following information: tweet user id, tweet user screen name, tweet user name, tweet id, tweet created time stamp, retweeted tweet id, retweeted user id, retweet created time stamp, reply user id, reply tweet id, quoted status, mentioned user id, url, source, favourite count, retweet count, language code, contents, etc. As a result, 171,132 tweets (`ct_twitter_1016.rds` file in this repo) were retrieved finally. Details are shown as below. 
 
 | CT ID | CT category | Num of Cases  |
 | :---------: |:-------------:|:-----:|
@@ -39,11 +39,12 @@ According to a pre-identified keyword list, we firstly filtered CT related tweet
 | CT 20 | Hospital payoffs | 306 |
 | CT 21 | Trump hydroxychloroquine | 20 |
 | CT 22 | obama wuhan lab | 444 |
-| CT 23 | plandemic | 3,004 |
+| CT 23 | plandemic judy | 66 |
 | CT 24 | Sam Hyde | 25 |
 | CT 25 | Trump owns testkits | 0 |
 | CT 26 | Trump siliences Messonnier | 17 |
 | CT 27 | Trump withholds testkits | 1 |
+| CT 28 | cattle and canine vaccines | 39 |
 
 ## Variable Construction <a name="variables"></a>
 
@@ -52,21 +53,21 @@ We first created an all-user-id list to capture all users’ ids including tweet
 
 Thirdly, we applied R package [`tweetscores`](https://github.com/pablobarbera/twitter_ideology) to estimate each user’s political ideology. It is an algorithm developed by [Barberá (2015)](https://www.cambridge.org/core/journals/political-analysis/article/birds-of-the-same-feather-tweet-together-bayesian-ideal-point-estimation-using-twitter-data/91E37205F69AEA32EF27F12563DC2A0A), assuming that people are more likely to follow social media accounts of elected officials who align with their ideology. In other words, it would estimate a user’s political ideology based on his/her followees. It yielded a continuous ideological score from -2.5 to +2.5 with a mean of 0 for each user (negative and positive scores mean Democrats and Republicans respectively). With the user profile data, we then extracted all users’ followees (N = 380,467,763) and calculated their political ideology accordingly.  164,941 users are successfully fetched with ideology scores while 37,193 users’ ideologies are NA (they did not follow any political related Twitter accounts). Therefore, we recoded those NAs into 0 score as well, indicating that these users might be indifferent to political affairs or have neutral political ideologies.
 
-Please refer to `ideos.Rdata` file for details and this data file is the meta file for political ideology related analysis in the project.
+Please refer to `ideos.rds` file for details and this data file is the meta file for political ideology related analysis in the project.
 
 ### Virality Score <a name="cascade"></a>
 To detect the diffusion model of CT tweets, we first re-constructed retweet chains. Twitter API only records retweet chains of the source tweet and last retweet, ignoring intermediareis. For example, if A is the source tweet, B retweets A, and then C retweets it from B, Twitter API would only record two chains: B-A, C-A, neglecting the real chain C-B. In other words, all indirect retweets are directly related to the source tweet in raw Twitter data. In addition, the retweet count variable in raw Twitter data only represent the retweet count of source tweets. [Please refer to details of retweeting information here](https://gwu-libraries.github.io/sfm-ui/posts/2016-11-10-twitter-interaction) and [raw Twitter data metircs here](https://developer.twitter.com/en/docs/labs/tweet-metrics/overview).
 
-The overall logic for rebuilding retweet chains is that, for a source tweet and all its retweets, we first sort retweets in a chronological order, and then judge whether the retweet’s user is a follower of the source tweet user or other retweet users’ follower. The retweet chain would be re-constructed on the most recent retweeting behaviour between two users with a following relationship [(Liang, 2015)](https://academic.oup.com/joc/article/68/3/525/4972615). 
+The overall logic for rebuilding retweet chains is that, for a source tweet and all its retweets, we first sort retweets in a chronological order, and then judge whether the retweet’s user is a follower of the source tweet user or other retweet users’ follower. The retweet chain would be re-constructed on the most recent retweeting behaviour between two users with a following relationship. For more details, please refer to Liang's paper [_Broadcast Versus Viral Spreading: The Structure of Diffusion Cascades and Selective Sharing on Social Media_](https://academic.oup.com/joc/article/68/3/525/4972615). 
 
 For retweets in our CT dataset, they might not have completed retweets of every source retweet. For example, source tweet A’s retweet count indicates that it was retweeted 10 times, however, there might be only 5 retweets collected in our dataset. The retweet chain then is constructed based on these retweets. Several reasons should be responsible for this limitation. First of all, it is the sampling error of the public Coronavirus Twitter dataset due to its data collection methods. Secondly, the retweet user might delete their retweets before our data collection. Moreover, the retweet user has a protected Twitter account so that we cannot access their data. 
 
 To make up for it, we re-collected additional 3,929 original tweets’ retweets (N=45,516) via Twitter API whose retweet counts are less than 100 (the Twitter API limits developers’ requesting behaviours of retrieving retweets from a certain tweet with a maximum quota of 100.) Hence, the reconstruction was built on two datasets: 1) retweets in our raw CT dataset; 2) original tweets in our CT dataset and their retweets from another round of Twitter API data collection. Please refer to `diffNet_1007.rds` for reconstructed retweet chains. Following research related to retweet behaviors is based on this data file. 
 
-Next, we calculatd virality scores of tweets in reconstructed retweet chains. You can refer to `virality_score_aug18.rds` for this variable data. 
+Next, we calculatd virality scores of tweets based on the reconstructed retweet chains. You can refer to `virality_score_aug18.rds` for this variable data. 
 
 ### Moral-Emotional Words <a name="moral"></a>
-We applied dictionary-based method to construct moral-emotional variables. For each tweet content, we cleaned noise first including urls, retweet prefix, special characters etc. Then we applied dictionary methods to count moral-emotional words in tweets via [`quanteda`](https://tutorials.quanteda.io/basic-operations/tokens/tokens_lookup) package. Moral and emotional dictionaries comes from following sources:
+We applied dictionary-based method to construct moral-emotional variables. For each tweet content, we cleaned noise first including urls, retweet prefix, special characters etc. Then we counted moral-emotional words in tweets via [`quanteda`](https://tutorials.quanteda.io/basic-operations/tokens/tokens_lookup) package. Moral and emotional dictionaries comes from following sources:
 
 - Moral Dictionaries: 
 	- Graham, J., Haidt, J., & Nosek, B. A. (2009). _Liberals and Conservatives Rely on Different Sets of Moral Foundations_, [Appendix](https://psycnet.apa.org/doiLanding?doi=10.1037%2Fa0015141) & [Moral Foundation Org](https://moralfoundations.org/wp-content/uploads/files/downloads/moral%20foundations%20dictionary.dic)
@@ -76,24 +77,24 @@ We applied dictionary-based method to construct moral-emotional variables. For e
 	- Linguistic Inquiry and Word Count [LIWC 2015 dictionary](https://liwc.wpengine.com/)
 	- Brady, W. J., Wills, J. A., Jost, J. T., Tucker, J. A., & Van Bavel, J. J. (2017). _Moral Contagion: How Emotion Shapes Diffusion of Moral Content in Social Networks_. [Appdendix](https://osf.io/59uyz/)
 
-Results were saved in the `moral-emo.rds`.
+The dictionary file was saved as the `moral-emo.rds` and this process can be replicated via `tokens_lookup()` function.
 
 
 ### Beliefs & RIAS <a name="ml"></a>
-Human coding sample (N=3,000) is the data file coded by human coders. Tweets were coded into two variables: (1) opinion (non-opinioned, affirm, deny); (2) rumor types (refutation, belief, disbelief, guide, sarcastic, providing information, interrogatory, prudent, sense-making, emotional, rhetorical question, authenticating, reports, others). Our machine learning classification models were trained based on this file. To achieve better prediction result, I split the task into several binary classification tasks. model training was completed with `caret` package in `R`. 
+For Beliefs and RIAS variables, we applied machine learning methods to construct. We first manually coded a sample of tweets (N=3,000), (see details in `code_sample1009.rds` file), which served as our labelled dataset for model training. Tweets were coded into two variables: (1) opinion (non-opinioned, affirm, deny); (2) rumor types (refutation, belief, disbelief, guide, sarcastic, providing information, interrogatory, prudent, sense-making, emotional, rhetorical question, authenticating, reports, others). To achieve better prediction result, I split the task into binary classification for each item. model training was completed with `caret` package in `R`. 
 
-For each task, I tested 5 mainstream algorithms (Lasso, SVM, KNN, naive bayes, random forest) and selected the best one. Generally, random forest out-performed other algorithms in our classification task. Therefore, I used random forest to train our models.
+For each item, I tested 5 mainstream algorithms (Lasso, SVM, KNN, naive bayes, random forest) and selected the best one. Generally, random forest out-performed other algorithms in our classification task. Therefore, I used random forest to train our models.
 
-Human coders found that among our current raw CT tweet dataset, there are still many tweets unrelated to conspiracy theories, indicating the limiation of keywords filters in our data collection procedure. We first trained a model to further filter our raw CT tweet dataset and then our rest variables were train among those labelled "related" CT tweets (N=2,235)
+It should be noted that, human coders found that among our current raw CT tweet dataset, there are still many tweets unrelated to conspiracy theories, indicating the limiation of keywords filters in our data collection procedure. We first trained a model to further filter raw CT tweet dataset and our rest variables were train among those labelled "related" CT tweets (N=2,235).
 
 The model training information for each variable is listed as below. 
 
 | variable |binary focus| accuracy | recall | precision | F1 score| 
 |:---:|:----: |:----:|:----:|:----:|:----:|
-| related |related|0.83|0.98|0.82|0.89|
-| affirm |Not|0.79|0.94|0.79|0.86|
-| deny|Not|0.78|0.94 |0.80|0.86 |
-| N/O|Not|0.80|0.96|0.75 (0.93)|0.85|
+|related |related|0.83|0.98|0.82|0.89|
+|affirm |Not|0.79|0.94|0.79|0.86|
+|deny|Not|0.78|0.94 |0.80|0.86 |
+|N/O|Not|0.80|0.96|0.75 (0.93)|0.85|
 |belief|Not|0.83|0.89(0.31)|0.91(0.26)|0.90(0.28)|
 |disbelief|Not|0.80|0.86(0.39)|0.91(0.29)|0.88(0.33)|
 |refutation|Not|0.89|0.91(0.32)|0.97(0.14)|0.94(0.19)|
@@ -101,12 +102,15 @@ The model training information for each variable is listed as below.
 |sense making|Not|0.86|0.87(0.18)|0.97(0.04)|0.92(0.06)|
 |reports|Not|0.87|0.90(0.66)|0.95(0.47)|0.92(0.55)|
 |rhetorical question|Not|0.94|0.95(0.17)|0.99(0.05))|0.97(0.07)|
-| sarcastic|Not|0.92|0.95(0.24)|0.96(0.20)|0.96(0.22)|
-| others(AUTH/INT/G/PRU)|Not|0.92|0.94(0.13)|0.97(0.08)|0.96(0.10)|
+|sarcastic|Not|0.92|0.95(0.24)|0.96(0.20)|0.96(0.22)|
+|others(AUTH/INT/G/PRU)|Not|0.92|0.94(0.13)|0.97(0.08)|0.96(0.10)|
+|uncodeable|Not|0.80|0.84(0.24)|0.95(0.08)|0.89(0.12)|
+|UC-T|Not|0.90|0.94(0.81)|0.93(0.84)|0.93(0.82)|
 
-With these models, values for __stance__ and __type__ were saved in `ml_tweet_3.rds` file or `ml_tweet_variable.csv`. It should be noted that for the __type__ variable, models performed very differently for binary elements because there are not enough training sample for model construction. 
 
-Given the limitation of machine learning, the classification results might not be as well as we expected. Therefore, I also reported the result of RQs with human-coded variables only in the next section, serving as a benchmark for evaluating the performance of machine generated variables. Ideally, results from the two datasets would be similar. But if the whole dataset performs worse than the human-coded only dataset, it is very likely that our machine learning algorithms are not good enough.
+With these models, values for __stance__ and __type__ were saved in `ml_tweet_3.rds` file. It should be noted that for the __type__ variable, models performed very differently for binary elements because there are not enough training samples for model construction. 
+
+Given the limitation of machine learning, the classification results might not be as well as we expected. Therefore, I also reported the result of RQs with human-coded variables only in the next section, serving as a reference for evaluating the performance of machine generated variables. Ideally, results from the two datasets should be similar. But if the whole dataset performs worse than the human-coded only dataset, it is very likely that our machine learning algorithms are not good enough.
 
 ### Result based on human-coded Data 1016 <a name="report"></a>
 With provided human coding samples, we are already capable of answering some RQs in the proposal though with limited tweets. Following results are based on the human-coded variables and therefore it is more reliable on the current stage. 
