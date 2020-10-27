@@ -119,14 +119,14 @@ However, given the limitation of machine learning, the classification results mi
 ## Result based on human-coded Data 1016 <a name="report"></a>
 With provided human coding samples, we are already capable of answering some RQs in the proposal though with limited tweets. Following results are based on the human-coded variables and therefore it is more reliable on the current stage. 
 
-##### RQ 1: Is there an ideological asymeetry in the sharing and beliefs of CTs?
+### RQ 1: Is there an ideological asymeetry in the sharing and beliefs of CTs?
 Generally, there are more conservatives express and share CT related tweets than liberals. In addition, conservatives are more likely to express and share beliefs in CT related tweets as well. (A = affirmative, D = denied, N/O = non-opinioned) 
 ![p1_1](.pic/p1_1.png)
 ![p1_2](.pic/p1_2.png)
 ![p1_3](.pic/p1_3.png)
 ![p1_4](.pic/p1_4.png)
 
-##### RQ 2: How do conservatives and liberals differ in ways they talk about COVID-19 CTs?
+### RQ 2: How do conservatives and liberals differ in ways they talk about COVID-19 CTs?
 To be brief, conservatives would produce more CT tweets than liberals, except for __sarcastic__ ones. As for __disbelief__ and __refutation__ types of content, conservatives and liberals' tweet counts are close. 
 
 | Name | Type | Conservative | Liberal | ratio C/L |
@@ -146,7 +146,7 @@ To be brief, conservatives would produce more CT tweets than liberals, except fo
 
 ![p2](.pic/p2.png)
 
-##### RQ 3: How do emotions, moral sentiments shape diffusion of COVID-19 CTs within and between political clusters?
+### RQ 3: How do emotions, moral sentiments shape diffusion of COVID-19 CTs within and between political clusters?
 First of all, there is no significant correlation between the number of moral-emotional words (_mix_ as the x axle) and retweet counts (_retweet count_ as the y axle). It should be noted that the distribution of retweet count is much sparser than the number of moral-emotional words, where data could be further manipulated.
 ![p3](.pic/p3_1.png)
 
@@ -166,7 +166,7 @@ Among all levels of moral-emotional words, sharing behaviors of CT tweets are mo
 | 4 | 71.8| 0 | ~ | 
 | 5 | 112 | 10.5  | 10.67 | 
 
-##### RQ 4: How does COVID-19 CTs diffuse within and between political clusters?
+### RQ 4: How does COVID-19 CTs diffuse within and between political clusters?
 Higher virality score (VS) suggests a viral model while lower virality score suggests a broadcasting model. We adopted a normalized virality score and the range is from 0 to 1. As showing in the below chart, our limited data demonstrate that tweets expressing __disbeliefs__ among both political clusters follow a broadcast model (VS = 0). In addtiional, compared to disbeliefs, tweets expressing __beliefs__ follow a more viral model (VS = 0.13). 
 
 | type | conservative avg VS | liberal avg VS |  
